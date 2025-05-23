@@ -1,3 +1,3 @@
-# Template
+# battleship
 
-Repository template
+Repository battleship
