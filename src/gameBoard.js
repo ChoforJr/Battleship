@@ -59,17 +59,25 @@ export const gameBoardFn = () => {
       return "Already visited";
     }
     if (typeof gameBoard[coord1][coord2] === "number") {
-      visitedCoord.push([coord1, coord2]);
-      missedCoord.push([coord1, coord2]);
+      visitedCoord.unshift([coord1, coord2]);
+      missedCoord.unshift([coord1, coord2]);
       return "miss";
     } else {
-      visitedCoord.push([coord1, coord2]);
-      hitCoord.push([coord1, coord2]);
+      visitedCoord.unshift([coord1, coord2]);
+      hitCoord.unshift([coord1, coord2]);
       gameBoard[coord1][coord2].hit();
       if (gameBoard[coord1][coord2].isSunk()) anotherShipSunk.push("yes");
       return "hit";
     }
   }
 
-  return { gameBoard, receiveAttack, addShip, anotherShipSunk };
+  return {
+    gameBoard,
+    receiveAttack,
+    addShip,
+    anotherShipSunk,
+    visitedCoord,
+    missedCoord,
+    hitCoord,
+  };
 };
