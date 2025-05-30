@@ -1,3 +1,9 @@
+//--Begin your app by creating the gameBoard class/factory (your choice).
+//--Gameboards should be able to place ships at specific coordinates by calling the ship factory or class
+//--Gameboards should have a receiveAttack function that takes a pair of coordinates, determines whether
+//or not the attack hit a ship and then sends the ‘hit’ function to the correct ship, or records the coordinates of the missed shot.
+//--Gameboards should keep track of missed attacks so they can display them properly.
+//--Gameboards should be able to report whether or not all of their ships have been sunk.
 export const gameBoardFn = () => {
   const gameBoard = {
     A: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
@@ -46,8 +52,7 @@ export const gameBoardFn = () => {
   let anotherShipSunk = [];
 
   const visitedCoord = [],
-    missedCoord = [],
-    hitCoord = [];
+    visitedCondition = [];
 
   function receiveAttack(coord1, coord2) {
     if (!(coord1 in gameBoard) || 0 < coord2 > 9) {
@@ -60,11 +65,11 @@ export const gameBoardFn = () => {
     }
     if (typeof gameBoard[coord1][coord2] === "number") {
       visitedCoord.unshift([coord1, coord2]);
-      missedCoord.unshift([coord1, coord2]);
+      visitedCondition.unshift("miss");
       return "miss";
     } else {
       visitedCoord.unshift([coord1, coord2]);
-      hitCoord.unshift([coord1, coord2]);
+      visitedCondition.unshift("hit");
       gameBoard[coord1][coord2].hit();
       if (gameBoard[coord1][coord2].isSunk()) anotherShipSunk.push("yes");
       return "hit";
@@ -77,7 +82,6 @@ export const gameBoardFn = () => {
     addShip,
     anotherShipSunk,
     visitedCoord,
-    missedCoord,
-    hitCoord,
+    visitedCondition,
   };
 };
