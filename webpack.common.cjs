@@ -11,7 +11,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      battleship: "./src/battleship.html",
+      template: "./src/template.html",
     }),
   ],
   module: {

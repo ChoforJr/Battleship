@@ -11,7 +11,7 @@
     "watch": "jest --watch *.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Chofor",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.27.1",
