@@ -1,7 +1,7 @@
 {
   "name": "battleship",
   "version": "1.0.0",
-  "description": "Repository battleship",
+  "description": "Battleship - TOP Project",
   "main": "index.js",
   "scripts": {
     "build": "webpack --config webpack.prod.cjs",
