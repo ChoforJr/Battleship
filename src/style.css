@@ -4,3 +4,190 @@
   font-size: 10px;
   box-sizing: border-box;
 }
+
+.container {
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "sideBar content";
+  grid-template-columns: 1fr 3fr;
+  gap: 5px;
+  background-color: #2196f3;
+  padding: 5px;
+}
+
+.container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+}
+
+.container > div.header {
+  grid-area: header;
+  text-align: center;
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.container > div.sideBar {
+  grid-area: sideBar;
+}
+
+.sideBar h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.addShips button {
+  text-align: center;
+  font-size: 1.8rem;
+  width: 11rem;
+  padding: 0.5rem;
+  margin: 0.5rem;
+}
+
+.addShips button:hover {
+  background-color: green;
+}
+
+.addShips select {
+  text-align: center;
+  font-size: 1.5rem;
+  width: 5rem;
+  padding: 0.5rem;
+  margin: 0.5rem;
+}
+.shipsInfo table {
+  border-collapse: collapse;
+  border: 0.2rem solid rgb(200, 200, 200);
+  letter-spacing: 0.1rexm;
+}
+
+.shipsInfo td,
+th {
+  border: 0.1rem solid rgb(190, 190, 190);
+  padding: 1rem 2rem;
+  font-size: 2rem;
+}
+
+.shipsInfo th {
+  background-color: rgb(235, 235, 235);
+}
+
+.shipsInfo td {
+  text-align: center;
+}
+
+.shipsInfo tr:nth-child(even) td {
+  background-color: rgb(250, 250, 250);
+}
+
+.shipsInfo tr:nth-child(odd) td {
+  background-color: rgb(245, 245, 245);
+}
+
+.container > div.content {
+  grid-area: content;
+  display: grid;
+  grid-template-areas:
+    "gameState gameState"
+    "condition condition"
+    "playerSpace computerSpace";
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  padding: 5px;
+}
+
+.container h3 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.container h3 span {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+.content > div.gameState {
+  grid-area: gameState;
+  font-size: 2rem;
+  justify-self: center;
+  font-weight: bold;
+}
+
+.content > div.condition {
+  grid-area: condition;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.content > div.condition span {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.content > div.playerSpace {
+  grid-area: playerSpace;
+  justify-self: center;
+}
+
+.playerBoard,
+.computerBoard {
+  border: solid 1px black;
+  width: 40rem;
+  height: 40rem;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: space-around;
+}
+
+.computerBoard button:hover {
+  background-color: blue;
+}
+
+.content > div.computerSpace {
+  grid-area: computerSpace;
+  justify-self: center;
+}
+
+.letterGuide {
+  border: solid 1px black;
+  margin-top: 20px;
+  width: 44rem;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: space-around;
+}
+
+.letterGuide button {
+  border: 0.1rem solid black;
+  width: 3.8rem;
+  height: 3.8rem;
+  font-size: 2rem;
+}
+.numberGuide {
+  border: solid 1px black;
+  height: 40rem;
+  width: 44rem;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: left;
+  padding-right: 50px;
+}
+
+.numberGuide button {
+  border: 0.1rem solid black;
+  width: 3.8rem;
+  height: 3.8rem;
+  font-size: 2rem;
+}

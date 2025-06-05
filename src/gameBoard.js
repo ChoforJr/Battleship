@@ -18,6 +18,8 @@ export const gameBoardFn = () => {
     J: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
   };
 
+  const addedCoords = [];
+
   function addShip(theShip, coord1, coord2, dir) {
     if (!(coord1 in gameBoard) || 0 < coord2 > 9) {
       return "Invalid Coordinates";
@@ -29,6 +31,7 @@ export const gameBoardFn = () => {
       if (dir === "up") {
         if (coord2 - (shipLength - i) < 0) return "Invalid Direction";
         gameBoard[coord1][coord2 - (shipLength - i)] = theShip;
+        addedCoords.unshift([coord1, coord2 - (shipLength - i)]);
       }
       if (dir === "down") {
         if (coord2 + (shipLength - i) < 0) return "Invalid Direction";
