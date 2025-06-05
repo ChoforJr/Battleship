@@ -18,12 +18,19 @@ export const gameBoardFn = () => {
     J: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
   };
 
-  const addedCoords = [];
+  const addedCoords = [],
+    recentlyAddedCoords = [];
 
   function addShip(theShip, coord1, coord2, dir) {
     if (!(coord1 in gameBoard) || 0 < coord2 > 9) {
       return "Invalid Coordinates";
     }
+    let currentCoordString = JSON.stringify([coord1, coord2]);
+    let addedCoordsString = JSON.stringify(addedCoords);
+    if (addedCoordsString.includes(currentCoordString)) {
+      return "Already Added";
+    }
+    recentlyAddedCoords.length = 0;
     let shipLength = theShip.length;
     let coord1ToAscii = coord1.charCodeAt(0);
 
@@ -32,22 +39,29 @@ export const gameBoardFn = () => {
         if (coord2 - (shipLength - i) < 0) return "Invalid Direction";
         gameBoard[coord1][coord2 - (shipLength - i)] = theShip;
         addedCoords.unshift([coord1, coord2 - (shipLength - i)]);
+        recentlyAddedCoords.unshift([coord1, coord2 - (shipLength - i)]);
       }
       if (dir === "down") {
         if (coord2 + (shipLength - i) < 0) return "Invalid Direction";
         gameBoard[coord1][coord2 + (shipLength - i)] = theShip;
+        addedCoords.unshift([coord1, coord2 + (shipLength - i)]);
+        recentlyAddedCoords.unshift([coord1, coord2 + (shipLength - i)]);
       }
       if (dir === "left") {
         let leftLetters = coord1ToAscii - (shipLength - i);
         let coord1FromAscii = String.fromCharCode(leftLetters);
         if (!(coord1FromAscii in gameBoard)) return "Invalid Direction";
         gameBoard[coord1FromAscii][coord2] = theShip;
+        addedCoords.unshift([coord1FromAscii, coord2]);
+        recentlyAddedCoords.unshift([coord1FromAscii, coord2]);
       }
       if (dir === "right") {
         let rightLetters = coord1ToAscii + (shipLength - i);
         let coord1FromAscii = String.fromCharCode(rightLetters);
         if (!(coord1FromAscii in gameBoard)) return "Invalid Direction";
         gameBoard[coord1FromAscii][coord2] = theShip;
+        addedCoords.unshift([coord1FromAscii, coord2]);
+        recentlyAddedCoords.unshift([coord1FromAscii, coord2]);
       }
     }
   }
@@ -86,5 +100,7 @@ export const gameBoardFn = () => {
     anotherShipSunk,
     visitedCoord,
     visitedCondition,
+    addedCoords,
+    recentlyAddedCoords,
   };
 };

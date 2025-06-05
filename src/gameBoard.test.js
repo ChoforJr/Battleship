@@ -49,4 +49,9 @@ describe("gameBoard", () => {
       "Invalid Direction",
     );
   });
+  test("gameBoard example 13", () => {
+    expect(testFn.addShip(patrolBoat2, "B", 5, "right")).toEqual(
+      "Already Added",
+    );
+  });
 });

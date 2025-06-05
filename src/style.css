@@ -139,7 +139,7 @@ th {
   height: 40rem;
   background-color: #ffffff;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   justify-content: space-around;
   align-content: space-around;
