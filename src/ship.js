@@ -7,7 +7,7 @@
 //---isSunk() should be a function that calculates whether a ship is
 //considered sunk based on its length and the number of hits it has received.
 
-export const ship = (length) => {
+export const ship = (length, name) => {
   if (length < 2 || length > 5) {
     return "Length must be between 2 and 5";
   }
@@ -23,5 +23,5 @@ export const ship = (length) => {
     }
   }
 
-  return { hit, isSunk, length };
+  return { hit, isSunk, length, name };
 };

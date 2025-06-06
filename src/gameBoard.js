@@ -19,7 +19,13 @@ export const gameBoardFn = () => {
   };
 
   const addedCoords = [],
-    recentlyAddedCoords = [];
+    recentlyAddedCoords = [],
+    patrolBoatStorage = [],
+    submarineStorage = [],
+    destroyerStorage = [],
+    battleshipStorage = [],
+    carrierStorage = [];
+
   function compareArrays(array1, array2) {
     const set = new Set(array2.map(JSON.stringify));
     return array1.some((element) => set.has(JSON.stringify(element)));
@@ -69,6 +75,17 @@ export const gameBoardFn = () => {
       recentlyAddedCoords.forEach((element) => {
         addedCoords.push([element[0], element[1]]);
         gameBoard[element[0]][element[1]] = theShip;
+        if (shipLength === 2) {
+          patrolBoatStorage.push([element[0], element[1]]);
+        } else if (shipLength === 3 && theShip.name === "submarine") {
+          submarineStorage.push([element[0], element[1]]);
+        } else if (shipLength === 3 && theShip.name === "destroyer") {
+          destroyerStorage.push([element[0], element[1]]);
+        } else if (shipLength === 4) {
+          battleshipStorage.push([element[0], element[1]]);
+        } else if (shipLength === 5) {
+          carrierStorage.push([element[0], element[1]]);
+        }
       });
     } else {
       return "Already Added";
@@ -111,5 +128,10 @@ export const gameBoardFn = () => {
     visitedCondition,
     addedCoords,
     recentlyAddedCoords,
+    patrolBoatStorage,
+    submarineStorage,
+    destroyerStorage,
+    battleshipStorage,
+    carrierStorage,
   };
 };
