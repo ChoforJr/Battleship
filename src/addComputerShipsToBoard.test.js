@@ -1,4 +1,3 @@
-//Begin your app by creating the gameBoard class/factory (your choice).
 import { gameBoardFn } from "./gameBoard.js";
 import { ship } from "./ship.js";
 import { describe, expect, test } from "@jest/globals";
