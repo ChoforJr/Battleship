@@ -50,8 +50,7 @@ describe("gameBoard", () => {
     );
   });
   test("gameBoard example 13", () => {
-    expect(testFn.addShip(patrolBoat2, "B", 5, "right")).toEqual(
-      "Already Added",
-    );
+    testFn.addShip(patrolBoat2, "E", 5, "down");
+    expect(testFn.receiveAttack("E", 5)).toEqual("hit");
   });
 });

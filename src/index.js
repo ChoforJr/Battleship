@@ -3,7 +3,14 @@ import "./style.css";
 import { gameBoardFn } from "./gameBoard.js";
 import { ship } from "./ship.js";
 import { createPlayerBoard, createComputerBoard } from "./createBoards.js";
-
+import {
+  addPatrolBoatOnly,
+  addSubmarineOnly,
+  addDestroyerOnly,
+  addBattleshipOnly,
+  addCarrierOnly,
+} from "./addShipToPageAndBoard.js";
+import { addShipToCompBoard } from "./addComputerShipsToBoard.js";
 const patrolBoat = ship(2);
 const submarine = ship(3);
 const destroyer = ship(3);
@@ -16,16 +23,14 @@ const computer = gameBoardFn();
 createPlayerBoard(player.gameBoard);
 createComputerBoard(computer.gameBoard);
 
-const addPatrolBoat = document.querySelector(".addPatrolBoat");
-const coord1Pat = document.querySelector("#coord1Pat");
-const coord2Pat = document.querySelector("#coord2Pat");
-const dirPat = document.querySelector("#dirPat");
+addPatrolBoatOnly(player, patrolBoat);
+addSubmarineOnly(player, submarine);
+addDestroyerOnly(player, destroyer);
+addBattleshipOnly(player, battleship);
+addCarrierOnly(player, carrier);
 
-addPatrolBoat.addEventListener("click", () => {
-  player.addShip(patrolBoat, coord1Pat.value, coord2Pat.value, dirPat.value);
-  let btn;
-  player.recentlyAddedCoords.forEach((element) => {
-    btn = document.querySelector(`.${element[0]}${element[1]}player`);
-    btn.style.backgroundColor = "green";
-  });
-});
+addShipToCompBoard(computer, patrolBoat);
+addShipToCompBoard(computer, submarine);
+addShipToCompBoard(computer, destroyer);
+addShipToCompBoard(computer, battleship);
+addShipToCompBoard(computer, carrier);

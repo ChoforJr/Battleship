@@ -20,6 +20,10 @@ export const gameBoardFn = () => {
 
   const addedCoords = [],
     recentlyAddedCoords = [];
+  function compareArrays(array1, array2) {
+    const set = new Set(array2.map(JSON.stringify));
+    return array1.some((element) => set.has(JSON.stringify(element)));
+  }
 
   function addShip(theShip, coord1, coord2, dir) {
     if (!(coord1 in gameBoard) || 0 < coord2 > 9) {
@@ -37,32 +41,37 @@ export const gameBoardFn = () => {
     for (let i = 1; i <= shipLength; i++) {
       if (dir === "up") {
         if (coord2 - (shipLength - i) < 0) return "Invalid Direction";
-        gameBoard[coord1][coord2 - (shipLength - i)] = theShip;
-        addedCoords.unshift([coord1, coord2 - (shipLength - i)]);
-        recentlyAddedCoords.unshift([coord1, coord2 - (shipLength - i)]);
+        // gameBoard[coord1][coord2 - (shipLength - i)] = theShip;
+        recentlyAddedCoords.push([coord1, `${coord2 - (shipLength - i)}`]);
       }
       if (dir === "down") {
-        if (coord2 + (shipLength - i) < 0) return "Invalid Direction";
-        gameBoard[coord1][coord2 + (shipLength - i)] = theShip;
-        addedCoords.unshift([coord1, coord2 + (shipLength - i)]);
-        recentlyAddedCoords.unshift([coord1, coord2 + (shipLength - i)]);
+        if (coord2 - i + shipLength > 9) return "Invalid Direction";
+        // gameBoard[coord1][coord2 + (shipLength - i)] = theShip;
+        recentlyAddedCoords.unshift([coord1, `${coord2 - i + shipLength}`]);
       }
       if (dir === "left") {
         let leftLetters = coord1ToAscii - (shipLength - i);
         let coord1FromAscii = String.fromCharCode(leftLetters);
         if (!(coord1FromAscii in gameBoard)) return "Invalid Direction";
-        gameBoard[coord1FromAscii][coord2] = theShip;
-        addedCoords.unshift([coord1FromAscii, coord2]);
-        recentlyAddedCoords.unshift([coord1FromAscii, coord2]);
+        // gameBoard[coord1FromAscii][coord2] = theShip;
+        recentlyAddedCoords.push([coord1FromAscii, coord2]);
       }
       if (dir === "right") {
         let rightLetters = coord1ToAscii + (shipLength - i);
         let coord1FromAscii = String.fromCharCode(rightLetters);
         if (!(coord1FromAscii in gameBoard)) return "Invalid Direction";
-        gameBoard[coord1FromAscii][coord2] = theShip;
-        addedCoords.unshift([coord1FromAscii, coord2]);
-        recentlyAddedCoords.unshift([coord1FromAscii, coord2]);
+        // gameBoard[coord1FromAscii][coord2] = theShip;
+        recentlyAddedCoords.push([coord1FromAscii, coord2]);
       }
+    }
+
+    if (!compareArrays(addedCoords, recentlyAddedCoords)) {
+      recentlyAddedCoords.forEach((element) => {
+        addedCoords.push([element[0], element[1]]);
+        gameBoard[element[0]][element[1]] = theShip;
+      });
+    } else {
+      return "Already Added";
     }
   }
 
