@@ -71,25 +71,25 @@ export const gameBoardFn = () => {
       }
     }
 
-    if (!compareArrays(addedCoords, recentlyAddedCoords)) {
-      recentlyAddedCoords.forEach((element) => {
-        addedCoords.push([element[0], element[1]]);
-        gameBoard[element[0]][element[1]] = theShip;
-        if (shipLength === 2) {
-          patrolBoatStorage.push([element[0], element[1]]);
-        } else if (shipLength === 3 && theShip.name === "submarine") {
-          submarineStorage.push([element[0], element[1]]);
-        } else if (shipLength === 3 && theShip.name === "destroyer") {
-          destroyerStorage.push([element[0], element[1]]);
-        } else if (shipLength === 4) {
-          battleshipStorage.push([element[0], element[1]]);
-        } else if (shipLength === 5) {
-          carrierStorage.push([element[0], element[1]]);
-        }
-      });
-    } else {
+    if (compareArrays(addedCoords, recentlyAddedCoords)) {
       return "Already Added";
     }
+    recentlyAddedCoords.forEach((element) => {
+      addedCoords.push([element[0], element[1]]);
+      gameBoard[element[0]][element[1]] = theShip;
+      console.log(gameBoard[element[0]][element[1]]);
+      if (shipLength === 2) {
+        patrolBoatStorage.push([element[0], element[1]]);
+      } else if (shipLength === 3 && theShip.name === "submarine") {
+        submarineStorage.push([element[0], element[1]]);
+      } else if (shipLength === 3 && theShip.name === "destroyer") {
+        destroyerStorage.push([element[0], element[1]]);
+      } else if (shipLength === 4) {
+        battleshipStorage.push([element[0], element[1]]);
+      } else if (shipLength === 5) {
+        carrierStorage.push([element[0], element[1]]);
+      }
+    });
   }
 
   let anotherShipSunk = [];
@@ -98,22 +98,29 @@ export const gameBoardFn = () => {
     visitedCondition = [];
 
   function receiveAttack(coord1, coord2) {
-    if (!(coord1 in gameBoard) || 0 < coord2 > 9) {
+    if (!(coord1 in gameBoard) || coord2 < 0 || coord2 > 9) {
       return "Invalid Coordinates";
     }
-    let currentCoordString = JSON.stringify([coord1, coord2]);
-    let visitedCoordString = JSON.stringify(visitedCoord);
-    if (visitedCoordString.includes(currentCoordString)) {
+    // let currentCoordString = JSON.stringify([coord1, coord2]);
+    // let visitedCoordString = JSON.stringify(visitedCoord);
+    // if (visitedCoordString.includes(currentCoordString)) {
+    //   return "Already visited";
+    // }
+    let isVisited = visitedCoord.some(
+      (vc) => vc[0] === coord1 && vc[1] === coord2,
+    );
+    if (isVisited) {
       return "Already visited";
     }
+    visitedCoord.unshift([coord1, coord2]);
+
     if (typeof gameBoard[coord1][coord2] === "number") {
-      visitedCoord.unshift([coord1, coord2]);
       visitedCondition.unshift("miss");
       return "miss";
     } else {
-      visitedCoord.unshift([coord1, coord2]);
       visitedCondition.unshift("hit");
       gameBoard[coord1][coord2].hit();
+      console.log("hit");
       if (gameBoard[coord1][coord2].isSunk()) anotherShipSunk.push("yes");
       return "hit";
     }

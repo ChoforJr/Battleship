@@ -30,7 +30,7 @@ export function addPatrolBoatOnly(player, theShip) {
     patrolBoatSlot++;
     player.recentlyAddedCoords.forEach((element) => {
       btn = document.querySelector(`.${element[0]}${element[1]}player`);
-      btn.style.backgroundColor = "green";
+      btn.style.backgroundColor = "black";
     });
     console.log("recentlyAddedCoords:", player.recentlyAddedCoords);
     console.log("addedCoords:", player.addedCoords);
@@ -69,7 +69,7 @@ export function addSubmarineOnly(player, theShip) {
     submarineSlot++;
     player.recentlyAddedCoords.forEach((element) => {
       btn = document.querySelector(`.${element[0]}${element[1]}player`);
-      btn.style.backgroundColor = "green";
+      btn.style.backgroundColor = "black";
     });
     console.log("recentlyAddedCoords:", player.recentlyAddedCoords);
     console.log("addedCoords:", player.addedCoords);
@@ -108,7 +108,7 @@ export function addDestroyerOnly(player, theShip) {
     destroyerSlot++;
     player.recentlyAddedCoords.forEach((element) => {
       btn = document.querySelector(`.${element[0]}${element[1]}player`);
-      btn.style.backgroundColor = "green";
+      btn.style.backgroundColor = "black";
     });
     console.log("recentlyAddedCoords:", player.recentlyAddedCoords);
     console.log("addedCoords:", player.addedCoords);
@@ -147,7 +147,7 @@ export function addBattleshipOnly(player, theShip) {
     battleshipSlot++;
     player.recentlyAddedCoords.forEach((element) => {
       btn = document.querySelector(`.${element[0]}${element[1]}player`);
-      btn.style.backgroundColor = "green";
+      btn.style.backgroundColor = "black";
     });
     console.log("recentlyAddedCoords:", player.recentlyAddedCoords);
     console.log("addedCoords:", player.addedCoords);
@@ -186,7 +186,7 @@ export function addCarrierOnly(player, theShip) {
     carrierSlot++;
     player.recentlyAddedCoords.forEach((element) => {
       btn = document.querySelector(`.${element[0]}${element[1]}player`);
-      btn.style.backgroundColor = "green";
+      btn.style.backgroundColor = "black";
     });
     console.log("recentlyAddedCoords:", player.recentlyAddedCoords);
     console.log("addedCoords:", player.addedCoords);

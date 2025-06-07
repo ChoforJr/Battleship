@@ -11,6 +11,7 @@ import {
   addCarrierOnly,
 } from "./addShipToPageAndBoard.js";
 import { addShipToCompBoard } from "./addComputerShipsToBoard.js";
+
 const patrolBoat = ship(2, "patrolBoat");
 const submarine = ship(3, "submarine");
 const destroyer = ship(3, "destroyer");
@@ -21,7 +22,7 @@ const player = gameBoardFn();
 const computer = gameBoardFn();
 
 createPlayerBoard(player.gameBoard);
-createComputerBoard(computer.gameBoard);
+createComputerBoard(computer);
 
 addPatrolBoatOnly(player, patrolBoat);
 addSubmarineOnly(player, submarine);
@@ -29,8 +30,8 @@ addDestroyerOnly(player, destroyer);
 addBattleshipOnly(player, battleship);
 addCarrierOnly(player, carrier);
 
-addShipToCompBoard(computer, patrolBoat, computer.patrolBoatStorage);
-addShipToCompBoard(computer, submarine, computer.submarineStorage);
-addShipToCompBoard(computer, destroyer, computer.destroyerStorage);
-addShipToCompBoard(computer, battleship, computer.battleshipStorage);
-addShipToCompBoard(computer, carrier, computer.carrierStorage);
+addShipToCompBoard(computer, patrolBoat, computer.patrolBoatStorage, 8);
+addShipToCompBoard(computer, submarine, computer.submarineStorage, 3);
+addShipToCompBoard(computer, destroyer, computer.destroyerStorage, 6);
+addShipToCompBoard(computer, battleship, computer.battleshipStorage, 8);
+addShipToCompBoard(computer, carrier, computer.carrierStorage, 5);
