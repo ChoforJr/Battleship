@@ -31,11 +31,14 @@ export function createComputerBoard(computer) {
         const item = event.currentTarget;
         if (result === "Invalid Coordinates" || result === "Already visited") {
           return;
-        } else if (result === "miss") {
+        }
+        if (result === "miss") {
           item.style.backgroundColor = "white";
           return;
-        } else if (result === "hit") {
+        }
+        if (result === "hit") {
           item.style.backgroundColor = "red";
+          console.log("hit");
           return;
         }
       });
