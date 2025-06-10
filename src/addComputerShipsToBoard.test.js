@@ -1,4 +1,4 @@
-import { gameBoardFn } from "./gameBoardComp.js";
+import { gameBoardFn } from "./gameBoard.js";
 import { ship } from "./ship.js";
 import { describe, expect, test } from "@jest/globals";
 import { addShipToCompBoard } from "./addComputerShipsToBoard.js";
@@ -38,6 +38,7 @@ describe("compGameBoard", () => {
   test("compGameBoard example 6", () => {
     expect(testFn.addedCoords.length).toEqual(30);
   });
+  // This is used to simply see if all the ships are added to the gameBoard, not for it to equal 30 (LOL)
   // test("compGameBoard example 7", () => {
   //   expect(testFn.gameBoard).toEqual(30);
   // });
@@ -45,23 +46,10 @@ describe("compGameBoard", () => {
     testFn.addedCoords.forEach((element) => {
       testFn.receiveAttack(element[0], element[1]);
     });
-    // for (const key in testFn.gameBoard) {
-    //   for (const element of testFn.gameBoard[key]) {
-    //     const result = testFn.receiveAttack(`${key}`, element);
-    //     if (result === "Invalid Coordinates" || result === "Already visited") {
-    //       return;
-    //     }
-    //     if (result === "miss") {
-    //       console.log("miss");
-    //     }
-    //     if (result === "hit") {
-    //       console.log("hit");
-    //     }
-    //   }
-    // }
     expect(testFn.visitedCondition.length).toEqual(30);
   });
   test("compGameBoard example 9", () => {
-    expect(testFn.anotherShipSunk.length).toEqual(3);
+    console.log(testFn.anotherShipSunk);
+    expect(testFn.anotherShipSunk.length).toEqual(10);
   });
 });

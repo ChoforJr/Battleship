@@ -11,7 +11,7 @@
     "watch": "jest --watch *.js"
   },
   "keywords": [],
-  "author": "Forsakang Chofor Junior",
+  "author": "Chofor Forsakang",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.27.1",

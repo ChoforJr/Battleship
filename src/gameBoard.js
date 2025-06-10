@@ -26,19 +26,19 @@ export const gameBoardFn = () => {
     battleshipStorage = [],
     carrierStorage = [];
 
-  function compareArrays(array1, array2) {
-    const set = new Set(array2.map(JSON.stringify));
-    return array1.some((element) => set.has(JSON.stringify(element)));
+  function compareArrays(array1, coord1, coord2) {
+    let currentCoordString = JSON.stringify([coord1, coord2]);
+    let addedCoordsString = JSON.stringify(array1);
+    if (addedCoordsString.includes(currentCoordString)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   function addShip(theShip, coord1, coord2, dir) {
     if (!(coord1 in gameBoard) || coord2 < 0 || coord2 > 9) {
       return "Invalid Coordinates";
-    }
-    let currentCoordString = JSON.stringify([coord1, coord2]);
-    let addedCoordsString = JSON.stringify(addedCoords);
-    if (addedCoordsString.includes(currentCoordString)) {
-      return "Already Added";
     }
     recentlyAddedCoords.length = 0;
     let shipLength = theShip.length;
@@ -47,33 +47,42 @@ export const gameBoardFn = () => {
     for (let i = 1; i <= shipLength; i++) {
       if (dir === "up") {
         if (coord2 - (shipLength - i) < 0) return "Invalid Direction";
-        // gameBoard[coord1][coord2 - (shipLength - i)] = theShip;
-        recentlyAddedCoords.push([coord1, `${coord2 - (shipLength - i)}`]);
+        recentlyAddedCoords.push([coord1, Number(coord2 - (shipLength - i))]);
+        if (
+          compareArrays(addedCoords, coord1, Number(coord2 - (shipLength - i)))
+        ) {
+          return "Already Added";
+        }
       }
       if (dir === "down") {
         if (coord2 - i + shipLength > 9) return "Invalid Direction";
-        // gameBoard[coord1][coord2 + (shipLength - i)] = theShip;
-        recentlyAddedCoords.unshift([coord1, `${coord2 - i + shipLength}`]);
+        recentlyAddedCoords.push([coord1, Number(coord2 - i + shipLength)]);
+        if (
+          compareArrays(addedCoords, coord1, Number(coord2 - i + shipLength))
+        ) {
+          return "Already Added";
+        }
       }
       if (dir === "left") {
         let leftLetters = coord1ToAscii - (shipLength - i);
         let coord1FromAscii = String.fromCharCode(leftLetters);
         if (!(coord1FromAscii in gameBoard)) return "Invalid Direction";
-        // gameBoard[coord1FromAscii][coord2] = theShip;
-        recentlyAddedCoords.push([coord1FromAscii, coord2]);
+        recentlyAddedCoords.push([coord1FromAscii, Number(coord2)]);
+        if (compareArrays(addedCoords, coord1FromAscii, Number(coord2))) {
+          return "Already Added";
+        }
       }
       if (dir === "right") {
         let rightLetters = coord1ToAscii + (shipLength - i);
         let coord1FromAscii = String.fromCharCode(rightLetters);
         if (!(coord1FromAscii in gameBoard)) return "Invalid Direction";
-        // gameBoard[coord1FromAscii][coord2] = theShip;
-        recentlyAddedCoords.push([coord1FromAscii, coord2]);
+        recentlyAddedCoords.push([coord1FromAscii, Number(coord2)]);
+        if (compareArrays(addedCoords, coord1FromAscii, Number(coord2))) {
+          return "Already Added";
+        }
       }
     }
 
-    if (compareArrays(addedCoords, recentlyAddedCoords)) {
-      return "Already Added";
-    }
     recentlyAddedCoords.forEach((element) => {
       addedCoords.push([element[0], Number(element[1])]);
       gameBoard[element[0]][Number(element[1])] = theShip;
@@ -91,18 +100,15 @@ export const gameBoardFn = () => {
     });
   }
 
-  let anotherShipSunk = [];
-
   const visitedCoord = [],
-    visitedCondition = [];
+    visitedCondition = [],
+    anotherShipSunk = [];
 
   function receiveAttack(coord1, coord2) {
     if (!(coord1 in gameBoard) || coord2 < 0 || coord2 > 9) {
       return "Invalid Coordinates";
     }
-    let currentCoordString = JSON.stringify([coord1, coord2]);
-    let visitedCoordString = JSON.stringify(visitedCoord);
-    if (visitedCoordString.includes(currentCoordString)) {
+    if (compareArrays(visitedCoord, coord1, coord2)) {
       return "Already visited";
     }
     visitedCoord.push([coord1, coord2]);
@@ -113,7 +119,7 @@ export const gameBoardFn = () => {
     } else {
       visitedCondition.unshift("hit");
       gameBoard[coord1][coord2].hit();
-      if (gameBoard[coord1][coord2].isSunk()) anotherShipSunk.push("yes");
+      if (gameBoard[coord1][coord2].isSunk()) anotherShipSunk.push("Sunk");
       return "hit";
     }
   }
@@ -134,104 +140,3 @@ export const gameBoardFn = () => {
     carrierStorage,
   };
 };
-
-// function addShip(theShip, coord1, coord2, dir) {
-//   if (!(coord1 in gameBoard) || coord2 < 0 || coord2 > 9) {
-//     return "Invalid Coordinates";
-//   }
-//   let currentCoordString = JSON.stringify([coord1, coord2]);
-//   let addedCoordsString = JSON.stringify(addedCoords);
-//   if (addedCoordsString.includes(currentCoordString)) {
-//     return "Already Added";
-//   }
-//   recentlyAddedCoords.length = 0;
-//   let shipLength = theShip.length;
-//   let coord1ToAscii = coord1.charCodeAt(0);
-
-//   for (let i = 1; i <= shipLength; i++) {
-//     if (dir === "up") {
-//       if (coord2 - (shipLength - i) < 0) return "Invalid Direction";
-//       // gameBoard[coord1][coord2 - (shipLength - i)] = theShip;
-//       recentlyAddedCoords.push([coord1, `${coord2 - (shipLength - i)}`]);
-//       if (!compareArrays(addedCoords, recentlyAddedCoords)) {
-//         gameBoard[coord1][coord2 - (shipLength - i)] = theShip;
-//         addedCoords.push(coord1, coord2 - (shipLength - i));
-//       }
-//       if (shipLength === 2) {
-//         patrolBoatStorage.push([coord1, coord2 - (shipLength - i)]);
-//       } else if (shipLength === 3 && theShip.name === "submarine") {
-//         submarineStorage.push([coord1, coord2 - (shipLength - i)]);
-//       } else if (shipLength === 3 && theShip.name === "destroyer") {
-//         destroyerStorage.push([coord1, coord2 - (shipLength - i)]);
-//       } else if (shipLength === 4) {
-//         battleshipStorage.push([coord1, coord2 - (shipLength - i)]);
-//       } else if (shipLength === 5) {
-//         carrierStorage.push([coord1, coord2 - (shipLength - i)]);
-//       }
-//     }
-//     if (dir === "down") {
-//       if (coord2 - i + shipLength > 9) return "Invalid Direction";
-//       // gameBoard[coord1][coord2 + (shipLength - i)] = theShip;
-//       recentlyAddedCoords.unshift([coord1, `${coord2 - i + shipLength}`]);
-//       if (!compareArrays(addedCoords, recentlyAddedCoords)) {
-//         gameBoard[coord1][coord2 + (shipLength - i)] = theShip;
-//         addedCoords.push(coord1, coord2 + (shipLength - i));
-//       }
-//       if (shipLength === 2) {
-//         patrolBoatStorage.push([coord1, coord2 + (shipLength - i)]);
-//       } else if (shipLength === 3 && theShip.name === "submarine") {
-//         submarineStorage.push([coord1, coord2 + (shipLength - i)]);
-//       } else if (shipLength === 3 && theShip.name === "destroyer") {
-//         destroyerStorage.push([coord1, coord2 + (shipLength - i)]);
-//       } else if (shipLength === 4) {
-//         battleshipStorage.push([coord1, coord2 + (shipLength - i)]);
-//       } else if (shipLength === 5) {
-//         carrierStorage.push([coord1, coord2 + (shipLength - i)]);
-//       }
-//     }
-//     if (dir === "left") {
-//       let leftLetters = coord1ToAscii - (shipLength - i);
-//       let coord1FromAscii = String.fromCharCode(leftLetters);
-//       if (!(coord1FromAscii in gameBoard)) return "Invalid Direction";
-//       // gameBoard[coord1FromAscii][coord2] = theShip;
-//       recentlyAddedCoords.push([coord1FromAscii, coord2]);
-//       if (!compareArrays(addedCoords, recentlyAddedCoords)) {
-//         gameBoard[coord1FromAscii][coord2] = theShip;
-//         addedCoords.push(coord1FromAscii, coord2);
-//       }
-//       if (shipLength === 2) {
-//         patrolBoatStorage.push([coord1FromAscii, coord2]);
-//       } else if (shipLength === 3 && theShip.name === "submarine") {
-//         submarineStorage.push([coord1FromAscii, coord2]);
-//       } else if (shipLength === 3 && theShip.name === "destroyer") {
-//         destroyerStorage.push([coord1FromAscii, coord2]);
-//       } else if (shipLength === 4) {
-//         battleshipStorage.push([coord1FromAscii, coord2]);
-//       } else if (shipLength === 5) {
-//         carrierStorage.push([coord1FromAscii, coord2]);
-//       }
-//     }
-//     if (dir === "right") {
-//       let rightLetters = coord1ToAscii + (shipLength - i);
-//       let coord1FromAscii = String.fromCharCode(rightLetters);
-//       if (!(coord1FromAscii in gameBoard)) return "Invalid Direction";
-//       // gameBoard[coord1FromAscii][coord2] = theShip;
-//       recentlyAddedCoords.push([coord1FromAscii, coord2]);
-//       if (!compareArrays(addedCoords, recentlyAddedCoords)) {
-//         gameBoard[coord1FromAscii][coord2] = theShip;
-//         addedCoords.push(coord1FromAscii, coord2);
-//       }
-//       if (shipLength === 2) {
-//         patrolBoatStorage.push([coord1FromAscii, coord2]);
-//       } else if (shipLength === 3 && theShip.name === "submarine") {
-//         submarineStorage.push([coord1FromAscii, coord2]);
-//       } else if (shipLength === 3 && theShip.name === "destroyer") {
-//         destroyerStorage.push([coord1FromAscii, coord2]);
-//       } else if (shipLength === 4) {
-//         battleshipStorage.push([coord1FromAscii, coord2]);
-//       } else if (shipLength === 5) {
-//         carrierStorage.push([coord1FromAscii, coord2]);
-//       }
-//     }
-//   }
-// }
