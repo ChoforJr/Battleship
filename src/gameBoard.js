@@ -32,7 +32,7 @@ export const gameBoardFn = () => {
   }
 
   function addShip(theShip, coord1, coord2, dir) {
-    if (!(coord1 in gameBoard) || 0 < coord2 > 9) {
+    if (!(coord1 in gameBoard) || coord2 < 0 || coord2 > 9) {
       return "Invalid Coordinates";
     }
     let currentCoordString = JSON.stringify([coord1, coord2]);
@@ -75,19 +75,18 @@ export const gameBoardFn = () => {
       return "Already Added";
     }
     recentlyAddedCoords.forEach((element) => {
-      addedCoords.push([element[0], element[1]]);
-      gameBoard[element[0]][element[1]] = theShip;
-      // console.log(gameBoard[element[0]][element[1]]);
+      addedCoords.push([element[0], Number(element[1])]);
+      gameBoard[element[0]][Number(element[1])] = theShip;
       if (shipLength === 2) {
-        patrolBoatStorage.push([element[0], element[1]]);
+        patrolBoatStorage.push([element[0], Number(element[1])]);
       } else if (shipLength === 3 && theShip.name === "submarine") {
-        submarineStorage.push([element[0], element[1]]);
+        submarineStorage.push([element[0], Number(element[1])]);
       } else if (shipLength === 3 && theShip.name === "destroyer") {
-        destroyerStorage.push([element[0], element[1]]);
+        destroyerStorage.push([element[0], Number(element[1])]);
       } else if (shipLength === 4) {
-        battleshipStorage.push([element[0], element[1]]);
+        battleshipStorage.push([element[0], Number(element[1])]);
       } else if (shipLength === 5) {
-        carrierStorage.push([element[0], element[1]]);
+        carrierStorage.push([element[0], Number(element[1])]);
       }
     });
   }
@@ -135,3 +134,104 @@ export const gameBoardFn = () => {
     carrierStorage,
   };
 };
+
+// function addShip(theShip, coord1, coord2, dir) {
+//   if (!(coord1 in gameBoard) || coord2 < 0 || coord2 > 9) {
+//     return "Invalid Coordinates";
+//   }
+//   let currentCoordString = JSON.stringify([coord1, coord2]);
+//   let addedCoordsString = JSON.stringify(addedCoords);
+//   if (addedCoordsString.includes(currentCoordString)) {
+//     return "Already Added";
+//   }
+//   recentlyAddedCoords.length = 0;
+//   let shipLength = theShip.length;
+//   let coord1ToAscii = coord1.charCodeAt(0);
+
+//   for (let i = 1; i <= shipLength; i++) {
+//     if (dir === "up") {
+//       if (coord2 - (shipLength - i) < 0) return "Invalid Direction";
+//       // gameBoard[coord1][coord2 - (shipLength - i)] = theShip;
+//       recentlyAddedCoords.push([coord1, `${coord2 - (shipLength - i)}`]);
+//       if (!compareArrays(addedCoords, recentlyAddedCoords)) {
+//         gameBoard[coord1][coord2 - (shipLength - i)] = theShip;
+//         addedCoords.push(coord1, coord2 - (shipLength - i));
+//       }
+//       if (shipLength === 2) {
+//         patrolBoatStorage.push([coord1, coord2 - (shipLength - i)]);
+//       } else if (shipLength === 3 && theShip.name === "submarine") {
+//         submarineStorage.push([coord1, coord2 - (shipLength - i)]);
+//       } else if (shipLength === 3 && theShip.name === "destroyer") {
+//         destroyerStorage.push([coord1, coord2 - (shipLength - i)]);
+//       } else if (shipLength === 4) {
+//         battleshipStorage.push([coord1, coord2 - (shipLength - i)]);
+//       } else if (shipLength === 5) {
+//         carrierStorage.push([coord1, coord2 - (shipLength - i)]);
+//       }
+//     }
+//     if (dir === "down") {
+//       if (coord2 - i + shipLength > 9) return "Invalid Direction";
+//       // gameBoard[coord1][coord2 + (shipLength - i)] = theShip;
+//       recentlyAddedCoords.unshift([coord1, `${coord2 - i + shipLength}`]);
+//       if (!compareArrays(addedCoords, recentlyAddedCoords)) {
+//         gameBoard[coord1][coord2 + (shipLength - i)] = theShip;
+//         addedCoords.push(coord1, coord2 + (shipLength - i));
+//       }
+//       if (shipLength === 2) {
+//         patrolBoatStorage.push([coord1, coord2 + (shipLength - i)]);
+//       } else if (shipLength === 3 && theShip.name === "submarine") {
+//         submarineStorage.push([coord1, coord2 + (shipLength - i)]);
+//       } else if (shipLength === 3 && theShip.name === "destroyer") {
+//         destroyerStorage.push([coord1, coord2 + (shipLength - i)]);
+//       } else if (shipLength === 4) {
+//         battleshipStorage.push([coord1, coord2 + (shipLength - i)]);
+//       } else if (shipLength === 5) {
+//         carrierStorage.push([coord1, coord2 + (shipLength - i)]);
+//       }
+//     }
+//     if (dir === "left") {
+//       let leftLetters = coord1ToAscii - (shipLength - i);
+//       let coord1FromAscii = String.fromCharCode(leftLetters);
+//       if (!(coord1FromAscii in gameBoard)) return "Invalid Direction";
+//       // gameBoard[coord1FromAscii][coord2] = theShip;
+//       recentlyAddedCoords.push([coord1FromAscii, coord2]);
+//       if (!compareArrays(addedCoords, recentlyAddedCoords)) {
+//         gameBoard[coord1FromAscii][coord2] = theShip;
+//         addedCoords.push(coord1FromAscii, coord2);
+//       }
+//       if (shipLength === 2) {
+//         patrolBoatStorage.push([coord1FromAscii, coord2]);
+//       } else if (shipLength === 3 && theShip.name === "submarine") {
+//         submarineStorage.push([coord1FromAscii, coord2]);
+//       } else if (shipLength === 3 && theShip.name === "destroyer") {
+//         destroyerStorage.push([coord1FromAscii, coord2]);
+//       } else if (shipLength === 4) {
+//         battleshipStorage.push([coord1FromAscii, coord2]);
+//       } else if (shipLength === 5) {
+//         carrierStorage.push([coord1FromAscii, coord2]);
+//       }
+//     }
+//     if (dir === "right") {
+//       let rightLetters = coord1ToAscii + (shipLength - i);
+//       let coord1FromAscii = String.fromCharCode(rightLetters);
+//       if (!(coord1FromAscii in gameBoard)) return "Invalid Direction";
+//       // gameBoard[coord1FromAscii][coord2] = theShip;
+//       recentlyAddedCoords.push([coord1FromAscii, coord2]);
+//       if (!compareArrays(addedCoords, recentlyAddedCoords)) {
+//         gameBoard[coord1FromAscii][coord2] = theShip;
+//         addedCoords.push(coord1FromAscii, coord2);
+//       }
+//       if (shipLength === 2) {
+//         patrolBoatStorage.push([coord1FromAscii, coord2]);
+//       } else if (shipLength === 3 && theShip.name === "submarine") {
+//         submarineStorage.push([coord1FromAscii, coord2]);
+//       } else if (shipLength === 3 && theShip.name === "destroyer") {
+//         destroyerStorage.push([coord1FromAscii, coord2]);
+//       } else if (shipLength === 4) {
+//         battleshipStorage.push([coord1FromAscii, coord2]);
+//       } else if (shipLength === 5) {
+//         carrierStorage.push([coord1FromAscii, coord2]);
+//       }
+//     }
+//   }
+// }
