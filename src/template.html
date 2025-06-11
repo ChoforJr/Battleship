@@ -11,6 +11,7 @@
       <div class="sideBar">
         <div class="addShips">
           <h2>Add Ships</h2>
+          <button class="random">Random</button>
           <div>
             <button class="addPatrolBoat" type="button">Patrol Boat</button
             ><select name="coord1Pat" id="coord1Pat" required>
@@ -228,7 +229,9 @@
       </div>
       <div class="content">
         <div class="gameState">Add all 10 ships to Begin the Game</div>
-        <div class="condition">Condition: <span>No Winner</span></div>
+        <div class="condition">
+          Condition: <span class="conditionSpace">No Winner</span>
+        </div>
         <div class="playerSpace">
           <div class="letterGuide">
             <button></button>
@@ -257,7 +260,7 @@
             <div class="playerBoard"></div>
           </div>
           <h3>Player Board</h3>
-          <h3>Ships Sunk: <span>0</span></h3>
+          <h3>Ships Sunk: <span class="sunkShipCounterPl">0</span></h3>
         </div>
         <div class="computerSpace">
           <div class="letterGuide">
@@ -287,7 +290,7 @@
             <div class="computerBoard"></div>
           </div>
           <h3>Computer Board</h3>
-          <h3>Ships Sunk: <span>0</span></h3>
+          <h3>Ships Sunk: <span class="sunkShipCounterComp">0</span></h3>
         </div>
       </div>
     </div>

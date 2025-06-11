@@ -16,13 +16,22 @@ export const ship = (length, name) => {
     return ++hitsTaken;
   }
   function isSunk() {
-    if (hitsTaken >= length) {
-      hitsTaken = 0;
-      return true;
-    } else {
-      return false;
-    }
+    return hitsTaken >= length;
+  }
+  let notAdded = true;
+  function addedFn() {
+    notAdded = false;
+    return;
   }
 
-  return { hit, isSunk, length, name };
+  return {
+    hit,
+    isSunk,
+    length,
+    name,
+    addedFn,
+    get notAdded() {
+      return notAdded;
+    },
+  };
 };

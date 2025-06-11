@@ -88,9 +88,12 @@ export const gameBoardFn = () => {
       gameBoard[element[0]][Number(element[1])] = theShip;
       if (shipLength === 2) {
         patrolBoatStorage.push([element[0], Number(element[1])]);
-      } else if (shipLength === 3 && theShip.name === "submarine") {
+      } else if (theShip.name === "Submarine 1") {
         submarineStorage.push([element[0], Number(element[1])]);
-      } else if (shipLength === 3 && theShip.name === "destroyer") {
+      } else if (
+        theShip.name === "Destroyer 1" ||
+        theShip.name === "Destroyer 2"
+      ) {
         destroyerStorage.push([element[0], Number(element[1])]);
       } else if (shipLength === 4) {
         battleshipStorage.push([element[0], Number(element[1])]);
@@ -98,6 +101,7 @@ export const gameBoardFn = () => {
         carrierStorage.push([element[0], Number(element[1])]);
       }
     });
+    theShip.addedFn();
   }
 
   const visitedCoord = [],

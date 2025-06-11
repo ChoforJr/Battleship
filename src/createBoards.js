@@ -16,7 +16,12 @@ export function createPlayerBoard(gameBoard) {
   }
 }
 
-export function createComputerBoard(computer) {
+export function createComputerBoard(
+  computer,
+  sunkShipCounterComp,
+  gameState,
+  conditionSpace,
+) {
   let newBtn;
   for (const key in computer.gameBoard) {
     for (const element of computer.gameBoard[key]) {
@@ -27,6 +32,9 @@ export function createComputerBoard(computer) {
       newBtn.style.width = `38px`;
       newBtn.style.height = `38px`;
       newBtn.addEventListener("click", (event) => {
+        if (conditionSpace.textContent !== "Players' Turn") {
+          return;
+        }
         const result = computer.receiveAttack(`${key}`, element);
         const item = event.currentTarget;
         if (result === "Invalid Coordinates" || result === "Already visited") {
@@ -34,11 +42,18 @@ export function createComputerBoard(computer) {
         }
         if (result === "miss") {
           item.style.backgroundColor = "white";
+          conditionSpace.textContent = "Computers' Turn";
           return;
         }
         if (result === "hit") {
           item.style.backgroundColor = "red";
-          console.log("hit");
+          sunkShipCounterComp.textContent = `${computer.anotherShipSunk.length}`;
+          conditionSpace.textContent = "Computers' Turn";
+          if (computer.anotherShipSunk.length === 10) {
+            conditionSpace.textContent = "Player is the Winner";
+            gameState.textContent = "GameOver Reload page to start new Game";
+          }
+          console.log(" Computers' hit");
           return;
         }
       });
