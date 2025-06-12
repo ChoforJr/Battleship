@@ -31,7 +31,7 @@ fleet.forEach((shipType) => {
   }
 });
 
-export function addplayerShipsManual(player) {
+export function addplayerShipsManual(player, gameState, conditionSpace) {
   addingEvent(
     player,
     patrolBoatPlayer,
@@ -42,6 +42,8 @@ export function addplayerShipsManual(player) {
     player.patrolBoatStorage,
     8,
     "Patrol Boat",
+    gameState,
+    conditionSpace,
   );
   addingEvent(
     player,
@@ -53,6 +55,8 @@ export function addplayerShipsManual(player) {
     player.submarineStorage,
     3,
     "Submarine",
+    gameState,
+    conditionSpace,
   );
   addingEvent(
     player,
@@ -64,6 +68,8 @@ export function addplayerShipsManual(player) {
     player.destroyerStorage,
     6,
     "Destroyer",
+    gameState,
+    conditionSpace,
   );
   addingEvent(
     player,
@@ -75,6 +81,8 @@ export function addplayerShipsManual(player) {
     player.battleshipStorage,
     8,
     "Battleship",
+    gameState,
+    conditionSpace,
   );
   addingEvent(
     player,
@@ -86,6 +94,8 @@ export function addplayerShipsManual(player) {
     player.carrierStorage,
     5,
     "Carrier",
+    gameState,
+    conditionSpace,
   );
 }
 
@@ -99,8 +109,13 @@ function addingEvent(
   storage,
   quantity,
   shipName,
+  gameState,
+  conditionSpace,
 ) {
   theShipBtn.addEventListener("click", () => {
+    if (gameState.textContent !== "Add all 10 ships to Begin the Game") {
+      return alert("Reload Page If You Want To Reset Your Ships");
+    }
     console.log("coord1:", coord1.value);
     console.log("coord2:", coord2.value);
     console.log("direction:", dir.value);
@@ -127,6 +142,10 @@ function addingEvent(
     console.log("addedCoords:", player.addedCoords);
     console.log("gameBoard:", player.gameBoard);
     theShip.shift();
+    if (player.addedCoords.length === 30) {
+      gameState.textContent = "Game Start";
+      conditionSpace.textContent = "Players' Turn";
+    }
   });
 }
 const addPatrolBoat = document.querySelector(".addPatrolBoat");

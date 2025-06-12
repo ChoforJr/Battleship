@@ -12,7 +12,7 @@ export function addPlayerShipsRandom(
   console.log(allShipPlayer);
   randomBtn.addEventListener("click", () => {
     if (gameState.textContent !== "Add all 10 ships to Begin the Game") {
-      return alert("Reload page if you want to start a new game");
+      return alert("Reload Page If You Want To Reset Your Ships");
     }
     allShipPlayer.forEach((ship) => {
       while (ship.notAdded) {

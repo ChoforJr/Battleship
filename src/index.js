@@ -42,7 +42,7 @@ createPlayerBoard(player.gameBoard);
 
 createComputerBoard(computer, sunkShipCounterComp, gameState, conditionSpace);
 
-addplayerShipsManual(player, allShipPlayer);
+addplayerShipsManual(player, gameState, conditionSpace);
 
 addShipToCompBoard(computer, allShipComp);
 

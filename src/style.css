@@ -9,7 +9,8 @@
   display: grid;
   grid-template-areas:
     "header header"
-    "sideBar content";
+    "sideBar content"
+    "footer footer";
   grid-template-columns: 1fr 3fr;
   gap: 5px;
   background-color: #2196f3;
@@ -196,10 +197,16 @@ th {
   font-size: 2rem;
 }
 
-/* .miss {
-  background-color: white;
+.container > div.footer {
+  grid-area: footer;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-content: space-around;
 }
-
-.hit {
-  background-color: red;
-} */
+.footer p,
+a {
+  font-size: 2rem;
+  font-weight: bold;
+}
